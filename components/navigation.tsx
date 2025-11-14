@@ -88,44 +88,50 @@ export function Navigation() {
         ))}
       </div>
 
-      {/* User Profile */}
-      {isClient && user ? (
+      {/* User Profile and Auth Buttons */}
+      {isClient && (
         <div className="p-4 border-t border-[#00FFE7]/30">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
-              <User className="w-5 h-5" />
+          {user ? (
+            // Logged in state
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <User className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
+                  <p className="font-medium truncate">{user.name}</p>
+                  <p className="text-xs text-white/60 truncate">{user.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="ml-2 p-2 rounded-lg hover:bg-white/20 transition flex items-center gap-2 text-sm whitespace-nowrap"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </button>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-medium truncate">{user.name}</p>
-              <p className="text-xs text-white/60 truncate">{user.email}</p>
+          ) : (
+            // Not logged in state
+            <div className="flex flex-col gap-2">
+              <Link
+                href="/login"
+                className="w-full py-2 px-4 rounded-lg bg-white/10 hover:bg-white/20 text-center transition flex items-center justify-center gap-2"
+              >
+                <User className="w-4 h-4" />
+                <span>Login</span>
+              </Link>
+              <Link
+                href="/signup"
+                className="w-full py-2 px-4 rounded-lg bg-[#00FFE7] hover:bg-[#00e6cf] text-[#0a0a0a] font-medium text-center transition flex items-center justify-center gap-2"
+              >
+                <span>Sign Up</span>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </Link>
             </div>
-          </div>
-          
-          <div className="space-y-2">
-            <Link 
-              href="/settings" 
-              className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-            </Link>
-            <button 
-              onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white/10 transition text-sm text-left"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="p-4 border-t border-[#00FFE7]/30">
-          <Link 
-            href="/login" 
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-sm"
-          >
-            <span>Sign In</span>
-          </Link>
+          )}
         </div>
       )}
     </nav>
